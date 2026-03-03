@@ -16,7 +16,7 @@ on:
 env:
   PACT_BROKER_URL: ${{ vars.PACT_BROKER_URL }}
   PACT_BROKER_USERNAME: ${{ vars.PACT_BROKER_USERNAME }}
-  DOCKER_IMAGE: harishdell/backend
+  DOCKER_IMAGE: gouravmuleva/backend
 
 jobs:
   validate:
