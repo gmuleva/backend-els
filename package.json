@@ -1,0 +1,42 @@
+{
+  "name": "demo-app-for-testing",
+  "version": "1.0.0",
+  "description": "Demo Application with Swagger for Test Case Generation",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "start:db": "node server-db.js",
+    "dev": "nodemon server.js",
+    "test": "jest --testPathIgnorePatterns=pact",
+    "test:unit": "jest --testPathIgnorePatterns=pact",
+    "test:pact:provider": "jest --testMatch='**/*.pact.provider.test.js'",
+    "test:pact:provider:local": "jest --testMatch='**/*.pact.provider.local.test.js'",
+    "test:pact:provider:all": "jest --testMatch='**/*.pact.provider*.test.js'",
+    "test:all": "jest"
+  },
+  "keywords": [
+    "demo",
+    "swagger",
+    "api",
+    "testing"
+  ],
+  "author": "EY VIBE Testing Platform",
+  "license": "MIT",
+  "dependencies": {
+    "body-parser": "^1.20.2",
+    "cors": "^2.8.5",
+    "express": "^4.18.2",
+    "mongoose": "^9.2.3",
+    "swagger-jsdoc": "^6.2.8",
+    "swagger-ui-express": "^5.0.0",
+    "uuid": "^9.0.0"
+  },
+  "devDependencies": {
+    "@pact-foundation/pact": "^16.2.0",
+    "@pact-foundation/pact-node": "^10.18.0",
+    "jest": "^30.2.0",
+    "mongodb-memory-server": "^11.0.1",
+    "nodemon": "^3.0.1",
+    "supertest": "^7.2.2"
+  }
+}

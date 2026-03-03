@@ -1,0 +1,55 @@
+# Local Docker Desktop values override
+# Use this for deploying locally built images
+
+image:
+  repository: demmoapp
+  pullPolicy: Never  # Don't pull from registry - use local image
+  tag: "0.0.0"
+
+# Reduce resources for local testing
+replicaCount: 1
+
+resources:
+  limits:
+    cpu: 200m
+    memory: 256Mi
+  requests:
+    cpu: 100m
+    memory: 128Mi
+
+# Disable autoscaling for local
+autoscaling:
+  enabled: false
+
+# Service configuration
+service:
+  type: ClusterIP
+  port: 80
+  targetPort: 3000
+
+# Enable ingress for local testing
+ingress:
+  enabled: true
+  className: nginx
+  annotations:
+    nginx.ingress.kubernetes.io/ssl-redirect: "true"
+    nginx.ingress.kubernetes.io/force-ssl-redirect: "true"
+    nginx.ingress.kubernetes.io/rewrite-target: /
+  hosts:
+    - host: demoapp.local
+      paths:
+        - path: /
+          pathType: Prefix
+  tls:
+    - secretName: demoapp-tls
+      hosts:
+        - demoapp.local
+
+# Environment variables for local
+env:
+  - name: NODE_ENV
+    value: "development"
+  - name: PORT
+    value: "3000"
+  - name: LOG_LEVEL
+    value: "debug"
