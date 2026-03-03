@@ -3,6 +3,7 @@
 ## 📋 Overview
 
 A comprehensive demo API designed to showcase **all types of software testing**:
+
 - ✅ **Unit Tests** - Individual function testing
 - ✅ **API Tests** - REST API endpoint testing
 - ✅ **E2E Tests** - Complete user flow testing
@@ -32,6 +33,7 @@ npm run dev
 ```
 
 **Expected Output:**
+
 ```
 ═══════════════════════════════════════════════════════════════
 🚀 E-Commerce Demo API Server Started
@@ -43,7 +45,7 @@ npm run dev
 ✅ Seed data created:
    - 2 users (admin@example.com / admin123, customer@example.com / customer123)
    - 5 products
-   
+
 🎯 Ready for test case generation!
    Use the Swagger JSON URL in your Functional Testing tab
 ═══════════════════════════════════════════════════════════════
@@ -80,6 +82,7 @@ npm run dev
 ### **API Endpoints by Domain:**
 
 #### **Authentication (3 endpoints)**
+
 ```
 POST /api/auth/register  - Register new user
 POST /api/auth/login     - Login and get token
@@ -87,12 +90,14 @@ POST /api/auth/logout    - Logout user
 ```
 
 #### **Users (2 endpoints)**
+
 ```
 GET  /api/users/:userId  - Get user profile
 PUT  /api/users/:userId  - Update user profile
 ```
 
 #### **Products (3 endpoints)**
+
 ```
 GET  /api/products              - List all products (with filters)
 GET  /api/products/:productId   - Get single product
@@ -100,6 +105,7 @@ POST /api/products              - Create product (admin only)
 ```
 
 #### **Cart (3 endpoints)**
+
 ```
 GET    /api/cart                     - Get user's cart
 POST   /api/cart/items               - Add item to cart
@@ -107,6 +113,7 @@ DELETE /api/cart/items/:productId    - Remove item from cart
 ```
 
 #### **Orders (4 endpoints)**
+
 ```
 POST /api/orders                  - Create order from cart
 GET  /api/orders                  - List user's orders
@@ -134,14 +141,15 @@ These test individual functions/utilities:
 ```
 
 **Generated Unit Test:**
+
 ```javascript
-describe('validateEmail', () => {
-  it('should return true for valid email', () => {
-    expect(validateEmail('test@example.com')).toBe(true);
+describe("validateEmail", () => {
+  it("should return true for valid email", () => {
+    expect(validateEmail("test@example.com")).toBe(true);
   });
-  
-  it('should return false for invalid email', () => {
-    expect(validateEmail('invalid-email')).toBe(false);
+
+  it("should return false for invalid email", () => {
+    expect(validateEmail("invalid-email")).toBe(false);
   });
 });
 ```
@@ -230,39 +238,39 @@ Steps:
 1. POST /api/auth/register
    Body: { email: "buyer@test.com", password: "Test123!", name: "Buyer" }
    Verify: 201, userId returned
-   
+
 2. POST /api/auth/login
    Body: { email: "buyer@test.com", password: "Test123!" }
    Verify: 200, token returned
    Store: token
-   
+
 3. GET /api/products
    Headers: { Authorization: Bearer {token} }
    Verify: 200, products array not empty
    Store: productId from first product
-   
+
 4. POST /api/cart/items
    Headers: { Authorization: Bearer {token} }
    Body: { productId: "{stored_productId}", quantity: 2 }
    Verify: 201, cart total > 0
-   
+
 5. GET /api/cart
    Headers: { Authorization: Bearer {token} }
    Verify: 200, items.length === 1
-   
+
 6. POST /api/orders
    Headers: { Authorization: Bearer {token} }
-   Body: { 
+   Body: {
      shippingAddress: { street: "123 Main", city: "City", state: "ST", zipCode: "12345", country: "US" },
      paymentMethod: "credit_card"
    }
    Verify: 201, orderId returned
    Store: orderId
-   
+
 7. GET /api/orders/{orderId}
    Headers: { Authorization: Bearer {token} }
    Verify: 200, order.status === "pending"
-   
+
 8. GET /api/cart
    Headers: { Authorization: Bearer {token} }
    Verify: 200, items.length === 0 (cart cleared)
@@ -283,35 +291,35 @@ Steps:
    Body: { email: "admin@example.com", password: "admin123" }
    Verify: 200, token returned, user.role === "admin"
    Store: adminToken
-   
+
 2. Create new product
    POST /api/products
    Headers: { Authorization: Bearer {adminToken} }
    Body: { name: "New Product", price: 99.99, category: "Test", stock: 10 }
    Verify: 201, productId returned
    Store: newProductId
-   
+
 3. Login as customer
    POST /api/auth/login
    Body: { email: "customer@example.com", password: "customer123" }
    Store: customerToken
-   
+
 4. View new product
    GET /api/products/{newProductId}
    Verify: 200, product.name === "New Product"
-   
+
 5. Add to cart
    POST /api/cart/items
    Headers: { Authorization: Bearer {customerToken} }
    Body: { productId: "{newProductId}", quantity: 1 }
    Verify: 201, cart contains new product
-   
+
 6. Create order
    POST /api/orders
    Headers: { Authorization: Bearer {customerToken} }
    Verify: 201, order created
    Store: orderId
-   
+
 7. Update order status (admin)
    PUT /api/orders/{orderId}/status
    Headers: { Authorization: Bearer {adminToken} }
@@ -376,34 +384,34 @@ Define API contracts between consumer and provider:
 // Consumer: Frontend
 // Provider: E-Commerce API
 
-describe('User Authentication Contract', () => {
-  it('should return token on successful login', () => {
+describe("User Authentication Contract", () => {
+  it("should return token on successful login", () => {
     const interaction = {
-      state: 'user exists',
-      uponReceiving: 'a login request with valid credentials',
+      state: "user exists",
+      uponReceiving: "a login request with valid credentials",
       withRequest: {
-        method: 'POST',
-        path: '/api/auth/login',
-        headers: { 'Content-Type': 'application/json' },
+        method: "POST",
+        path: "/api/auth/login",
+        headers: { "Content-Type": "application/json" },
         body: {
-          email: 'test@example.com',
-          password: 'Test123!'
-        }
+          email: "test@example.com",
+          password: "Test123!",
+        },
       },
       willRespondWith: {
         status: 200,
-        headers: { 'Content-Type': 'application/json' },
+        headers: { "Content-Type": "application/json" },
         body: {
-          message: 'Login successful',
+          message: "Login successful",
           token: Matchers.string(),
           user: {
             id: Matchers.uuid(),
-            email: 'test@example.com',
+            email: "test@example.com",
             name: Matchers.string(),
-            role: Matchers.string()
-          }
-        }
-      }
+            role: Matchers.string(),
+          },
+        },
+      },
     };
   });
 });
@@ -599,15 +607,15 @@ curl -X POST \
 
 ## 📊 Test Coverage Matrix
 
-| Test Type | Count | Coverage |
-|-----------|-------|----------|
-| **Unit Tests** | ~20 | Helper functions, validation logic |
-| **API Tests (Positive)** | ~15 | One per endpoint |
-| **API Tests (Negative)** | ~30+ | 2-4 per endpoint |
-| **E2E Tests** | ~5 | Major user flows |
-| **Integration Tests** | ~10 | API + Data interactions |
-| **Contract Tests** | ~15 | API contracts per endpoint |
-| **Total** | **~95** | Comprehensive coverage |
+| Test Type                | Count   | Coverage                           |
+| ------------------------ | ------- | ---------------------------------- |
+| **Unit Tests**           | ~20     | Helper functions, validation logic |
+| **API Tests (Positive)** | ~15     | One per endpoint                   |
+| **API Tests (Negative)** | ~30+    | 2-4 per endpoint                   |
+| **E2E Tests**            | ~5      | Major user flows                   |
+| **Integration Tests**    | ~10     | API + Data interactions            |
+| **Contract Tests**       | ~15     | API contracts per endpoint         |
+| **Total**                | **~95** | Comprehensive coverage             |
 
 ---
 
@@ -660,12 +668,12 @@ When analyzing this API, generate:
 // In server.js, modify seedData() function
 sampleProducts.push({
   id: uuidv4(),
-  name: 'Your Product',
-  description: 'Description',
+  name: "Your Product",
+  description: "Description",
   price: 99.99,
-  category: 'Category',
+  category: "Category",
   stock: 10,
-  image: 'url'
+  image: "url",
 });
 ```
 
@@ -683,7 +691,7 @@ sampleProducts.push({
  *       200:
  *         description: Success
  */
-app.get('/api/your-endpoint', (req, res) => {
+app.get("/api/your-endpoint", (req, res) => {
   // Your logic
 });
 ```
@@ -728,3 +736,4 @@ This demo API provides:
 ---
 
 **🎯 Perfect for demonstrating comprehensive test automation capabilities! 🧪**
+Updated git flow for backend
